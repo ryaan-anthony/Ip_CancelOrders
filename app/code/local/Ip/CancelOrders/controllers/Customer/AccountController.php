@@ -4,6 +4,7 @@ class Ip_CancelOrders_Customer_AccountController extends Mage_Customer_AccountCo
 {
 
     const XML_PATH_EMAIL_CANCEL_TEMPLATE               = 'sales_email/order/cancel_template';
+    const XML_PATH_EMAIL_CANCEL_BCC                    = 'sales_email/order/cancel_bcc';
 
     public function cancelorderAction()
     {
@@ -30,8 +31,12 @@ class Ip_CancelOrders_Customer_AccountController extends Mage_Customer_AccountCo
     {
         $storeId = $this->getStoreId();
         $mailer = Mage::getModel('core/email_template_mailer');
+        /** @var Mage_Core_Model_Email_Info $emailInfo */
         $emailInfo = Mage::getModel('core/email_info');
-        $emailInfo->addTo($order->getCustomerEmail());
+        $emailInfo->addTo($order->getCustomerEmail(), $order->getCustomerName());
+        foreach($this->_getEmails() as $email){
+            $emailInfo->addBcc($email);
+        }
         $mailer->addEmailInfo($emailInfo);
         $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_CANCEL_TEMPLATE, $storeId);
         $mailer->setSender(Mage::getStoreConfig(Mage_Sales_Model_Order::XML_PATH_EMAIL_IDENTITY, $storeId));
@@ -46,18 +51,16 @@ class Ip_CancelOrders_Customer_AccountController extends Mage_Customer_AccountCo
 
     protected function _getEmails()
     {
-        $data = Mage::getStoreConfig(Mage_Sales_Model_Order::XML_PATH_EMAIL_COPY_TO, $this->getStoreId());
+        $data = Mage::getStoreConfig(self::XML_PATH_EMAIL_CANCEL_BCC, $this->getStoreId());
         if (!empty($data)) {
             return explode(',', $data);
         }
-        return false;
+        return array();
     }
-    
+
     public function getStoreId()
     {
         return Mage::app()->getStore()->getId();
     }
-    
-}
 
-?>
+}
