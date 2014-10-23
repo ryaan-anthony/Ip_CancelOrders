@@ -37,4 +37,12 @@
         </routers>
     </frontend>
 
+    <default>
+        <sales>
+            <cancellations>
+                <are_you_sure>Are you sure?</are_you_sure>
+            </cancellations>
+        </sales>
+    </default>
+
 </config>

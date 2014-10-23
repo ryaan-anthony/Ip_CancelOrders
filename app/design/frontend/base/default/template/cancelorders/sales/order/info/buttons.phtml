@@ -14,7 +14,7 @@
     <span class="separator">|</span>
 <?php endif ?>
 <?php if ($_order->canCancel()) : ?>
-    <a href="#" class="link-cancelorder" onclick="if(confirm('Are you sure?')){setLocation('<?php echo $this->getCancelUrl($_order) ?>');}"><?php echo $this->__('Cancel Order') ?></a>
+    <a href="#" class="link-cancelorder" onclick="if(confirm('<?php echo $this->areYouSure();?>')){setLocation('<?php echo $this->getCancelUrl($_order) ?>');}"><?php echo $this->__('Cancel Order') ?></a>
     <span class="separator">|</span>
 <?php endif ?>
 <a href="<?php echo $this->getPrintUrl($_order) ?>" class="link-print" onclick="this.target='_blank';"><?php echo $this->__('Print Order') ?></a>
