@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config>
+
+    <modules>
+        <Ip_CancelOrders>
+            <version>0.1.0</version>
+        </Ip_CancelOrders>
+    </modules>
+
+    <global>
+        <blocks>
+            <sales>
+                <rewrite>
+                    <order_recent>Ip_CancelOrders_Block_Sales_Order_Recent</order_recent>
+                    <order_history>Ip_CancelOrders_Block_Sales_Order_History</order_history>
+                    <order_info_buttons>Ip_CancelOrders_Block_Sales_Order_Info_Buttons</order_info_buttons>
+                </rewrite>
+            </sales>
+        </blocks>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <cancelorders>
+                    <file>cancelorders.xml</file>
+                </cancelorders>
+            </updates>
+        </layout>
+        <routers>
+            <customer>
+                <args>
+                    <modules>
+                        <cancel_orders before="Mage_Customer">Ip_CancelOrders_Customer</cancel_orders>
+                    </modules>
+                </args>
+            </customer>
+        </routers>
+    </frontend>
+
+</config>
